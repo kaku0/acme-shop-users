@@ -47,7 +47,12 @@ def send_event(event: dict):
     Send event to EventBridge
     """
 
-    eventbridge.put_events(Entries=[event])
+    eventbridge.put_events(Entries=[{
+        **event,
+        "Source": "ecommerce.users",
+        "DetailType": "UserCreated",
+        "EventBusName": EVENT_BUS_NAME
+    }])
 
 
 @logger.inject_lambda_context
